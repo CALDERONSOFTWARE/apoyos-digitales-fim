@@ -1,0 +1,3 @@
+import { Navigate,Outlet } from 'react-router-dom';import { Spin } from 'antd';import { useAuth } from '../../context/AuthContext';import type{Role}from'../../types';
+export function ProtectedRoute(){const{session,loading}=useAuth();if(loading)return <div className="center"><Spin size="large"/></div>;return session?<Outlet/>:<Navigate to="/login" replace/>}
+export function RoleGuard({role}:{role:Role}){const{profile,loading}=useAuth();if(loading)return <div className="center"><Spin/> </div>;return profile?.role===role?<Outlet/>:<Navigate to={profile?.role==='admin'?'/admin/dashboard':'/forms'} replace/>}

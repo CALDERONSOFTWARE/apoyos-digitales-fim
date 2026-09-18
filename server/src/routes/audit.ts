@@ -1,0 +1,2 @@
+import { Router } from 'express';import { supabaseAdmin } from '../config/supabase.js';import { requireAdmin, requireAuth } from '../middleware/auth.js';
+const router=Router();router.use(requireAuth,requireAdmin);router.get('/',async(_req,res,next)=>{try{const{data,error}=await supabaseAdmin.from('audit_logs').select('*,profiles(full_name,email)').order('created_at',{ascending:false}).limit(200);if(error)throw error;res.json(data)}catch(e){next(e)}});export default router;
