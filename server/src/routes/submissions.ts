@@ -6,9 +6,40 @@ import { audit } from '../utils/audit.js';
 
 const router=Router(); router.use(requireAuth);
 
-router.get('/form/:formId', requireAdmin, async (req,res,next)=>{ try {
-  const {data,error}=await supabaseAdmin.from('submissions').select('*, profiles!submissions_respondent_id_fkey(full_name,email), submission_answers(*)').eq('form_id',req.params.formId).order('submitted_at',{ascending:false}); if(error) throw error; res.json(data);
-}catch(e){next(e)}});
+router.get('/form/:formId', requireAdmin, async (req, res, next) => {
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('submissions')
+      .select(`
+        *,
+        profiles!submissions_respondent_id_fkey(
+          full_name,
+          email
+        ),
+        submission_answers(
+          *,
+          form_fields(
+            id,
+            label,
+            type,
+            position
+          )
+        )
+      `)
+      .eq('form_id', req.params.formId)
+      .order('submitted_at', {
+        ascending: false,
+      });
+
+    if (error) {
+      throw error;
+    }
+
+    res.json(data);
+  } catch (e) {
+    next(e);
+  }
+});
 
 router.get('/mine', async (req,res,next)=>{try{const {data,error}=await supabaseAdmin.from('submissions').select('*, forms(title)').eq('respondent_id',req.profile!.id).order('submitted_at',{ascending:false});if(error)throw error;res.json(data)}catch(e){next(e)}});
 

@@ -1,6 +1,7 @@
 import {
   AuditOutlined,
   DashboardOutlined,
+  FileImageOutlined,
   FileTextOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
@@ -36,31 +37,54 @@ const {
 
 export default function AdminLayout() {
   const nav = useNavigate();
-  const location = useLocation();
+
+  const location =
+    useLocation();
 
   const {
     profile,
     signOut,
   } = useAuth();
 
-  const [collapsed, setCollapsed] = useState(false);
+  const [
+    collapsed,
+    setCollapsed,
+  ] = useState(false);
 
   const getSelectedKey = () => {
-    if (location.pathname.startsWith('/admin/forms')) {
+    if (
+      location.pathname.startsWith(
+        '/admin/forms'
+      )
+    ) {
       return '/admin/forms';
     }
 
-    if (location.pathname.startsWith('/admin/audit')) {
+    if (
+      location.pathname.startsWith(
+        '/admin/files'
+      )
+    ) {
+      return '/admin/files';
+    }
+
+    if (
+      location.pathname.startsWith(
+        '/admin/audit'
+      )
+    ) {
       return '/admin/audit';
     }
 
     return '/admin/dashboard';
   };
 
-  const handleLogout = async () => {
-    await signOut();
-    nav('/login');
-  };
+  const handleLogout =
+    async () => {
+      await signOut();
+
+      nav('/login');
+    };
 
   return (
     <Layout className="admin-shell">
@@ -86,8 +110,14 @@ export default function AdminLayout() {
 
           {!collapsed && (
             <div className="admin-brand-text">
-              <strong>Apoyos Digitales</strong>
-              <span>Facultad de Ingeniería Mochis</span>
+              <strong>
+                Apoyos Digitales
+              </strong>
+
+              <span>
+                Facultad de Ingeniería
+                Mochis
+              </span>
             </div>
           )}
         </div>
@@ -101,24 +131,56 @@ export default function AdminLayout() {
         <Menu
           mode="inline"
           theme="dark"
-          selectedKeys={[getSelectedKey()]}
+          selectedKeys={[
+            getSelectedKey(),
+          ]}
           className="admin-menu"
-          onClick={({ key }) => nav(key)}
+          onClick={({ key }) =>
+            nav(key)
+          }
           items={[
             {
-              key: '/admin/dashboard',
-              icon: <DashboardOutlined />,
-              label: 'Dashboard',
+              key:
+                '/admin/dashboard',
+
+              icon:
+                <DashboardOutlined />,
+
+              label:
+                'Dashboard',
             },
+
             {
-              key: '/admin/forms',
-              icon: <FileTextOutlined />,
-              label: 'Formularios',
+              key:
+                '/admin/forms',
+
+              icon:
+                <FileTextOutlined />,
+
+              label:
+                'Formularios',
             },
+
             {
-              key: '/admin/audit',
-              icon: <AuditOutlined />,
-              label: 'Auditoría',
+              key:
+                '/admin/files',
+
+              icon:
+                <FileImageOutlined />,
+
+              label:
+                'Archivos',
+            },
+
+            {
+              key:
+                '/admin/audit',
+
+              icon:
+                <AuditOutlined />,
+
+              label:
+                'Auditoría',
             },
           ]}
         />
@@ -128,15 +190,20 @@ export default function AdminLayout() {
             <div className="admin-sidebar-user">
               <Avatar
                 size={34}
-                icon={<UserOutlined />}
+                icon={
+                  <UserOutlined />
+                }
               />
 
               <div className="admin-sidebar-user-info">
                 <strong>
-                  {profile?.full_name || 'Administrador'}
+                  {profile?.full_name ||
+                    'Administrador'}
                 </strong>
 
-                <span>Administrador</span>
+                <span>
+                  Administrador
+                </span>
               </div>
             </div>
           )}
@@ -144,11 +211,14 @@ export default function AdminLayout() {
           <Button
             type="text"
             danger
-            icon={<LogoutOutlined />}
+            icon={
+              <LogoutOutlined />
+            }
             className="admin-sidebar-logout"
             onClick={handleLogout}
           >
-            {!collapsed && 'Cerrar sesión'}
+            {!collapsed &&
+              'Cerrar sesión'}
           </Button>
         </div>
       </Sider>
@@ -161,10 +231,18 @@ export default function AdminLayout() {
               className="sidebar-toggle"
               icon={
                 collapsed
-                  ? <MenuUnfoldOutlined />
-                  : <MenuFoldOutlined />
+                  ? (
+                    <MenuUnfoldOutlined />
+                  )
+                  : (
+                    <MenuFoldOutlined />
+                  )
               }
-              onClick={() => setCollapsed(!collapsed)}
+              onClick={() =>
+                setCollapsed(
+                  !collapsed
+                )
+              }
             />
 
             <div className="admin-topbar-heading">
@@ -173,7 +251,8 @@ export default function AdminLayout() {
               </Typography.Text>
 
               <Typography.Text className="admin-topbar-subtitle">
-                Facultad de Ingeniería Mochis
+                Facultad de Ingeniería
+                Mochis
               </Typography.Text>
             </div>
           </div>
@@ -181,15 +260,20 @@ export default function AdminLayout() {
           <div className="admin-topbar-profile">
             <div className="admin-topbar-user-text">
               <strong>
-                {profile?.full_name || 'Facultad UAS Admin'}
+                {profile?.full_name ||
+                  'Facultad UAS Admin'}
               </strong>
 
-              <span>Administrador</span>
+              <span>
+                Administrador
+              </span>
             </div>
 
             <Avatar
               size={36}
-              icon={<UserOutlined />}
+              icon={
+                <UserOutlined />
+              }
             />
           </div>
         </Header>
